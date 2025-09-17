@@ -9,7 +9,7 @@ Thank you for your interest in contributing to `tbd-project-25`! We welcome cont
 2. **Clone your fork**: Clone your forked repository to your local development environment.
 
     ```bash
-    git clone https://github.com/tbd-project-25/tbd-project-25.git
+    git clone https://github.com/hackbio-ca/tbd-project-25.git
     ```
 
 3. **Create a new branch**: Create a new branch for your changes. Use a descriptive branch name that indicates the work you are doing.
