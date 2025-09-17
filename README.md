@@ -1,6 +1,6 @@
-# demo-project
+# tbd-project-25
 
-A brief description of the project. Explain what it does and who it's for.
+Placeholder repository for Team 25 – update with final project title and description when available
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
