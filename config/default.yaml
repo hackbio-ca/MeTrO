@@ -1,0 +1,18 @@
+# default parameters. all experimental parameters should use these unless set as otherwise in another custom config
+
+# vae parameters
+d_input:
+d_hidden:
+d_latent:
+
+# training parameters
+batch_size:
+learning_rate:
+num_epochs:
+
+# data parameters
+t_data_fp: 
+m_data_fp:
+
+# device
+device: 
