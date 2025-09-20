@@ -8,16 +8,18 @@ Placeholder repository for Team 25 – update with final project title and descr
 
 A concise summary of the project's goals, the problem it addresses, and its intended audience. This section can include potential use cases and key features.
 
+## Download datasets
+Download data from [https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1009337#sec028](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1009337#sec028) S1 File.
+
 ## Installation
 
-Provide instructions on how to install and set up the project, such as installing dependencies and preparing the environment.
-
+### R environment
 ```bash
-# Example command to install dependencies (Python)
-pip install project-dependencies
+mamba install -c conda-forge r-base r-rcpp r-igraph r-biocmanager
+```
 
-# Example command to install dependencies (R)
-install.packages("project-dependencies")
+```R
+BiocManager::install("mixOmics")
 ```
 
 ## Quick Start
