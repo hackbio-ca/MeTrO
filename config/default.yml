@@ -19,4 +19,4 @@ t_data_fp: 1
 m_data_fp: 1
 
 # device
-device: 'auto'  # 'auto', 'cuda', or 'cpu'
+device: 'cpu'  # 'cuda', or 'cpu'

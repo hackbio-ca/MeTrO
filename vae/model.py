@@ -8,13 +8,16 @@ class VAE(nn.Module):
             d_input_tr: int,
             d_input_me: int,
             d_hidden: int,
-            d_latent: int):
+            d_latent: int,
+            device: str):
         
         super().__init__()
         self.encoder_m = Encoder(d_input_me, d_hidden, d_latent)
         self.encoder_t = Encoder(d_input_tr, d_hidden, d_latent)
         self.decoder_m = Decoder(d_latent, d_hidden, d_input_me)
         self.decoder_t = Decoder(d_latent, d_hidden, d_input_tr)
+
+        self.device = torch.device(device)
 
 class Encoder(nn.Module):
     def __init__(self, d_x, d_h, d_l):
