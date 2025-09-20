@@ -1,7 +1,6 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from utils import load_config
 
 class VAE(nn.Module):
     def __init__(
@@ -12,6 +11,10 @@ class VAE(nn.Module):
             d_latent: int):
         
         super().__init__()
+        self.encoder_m = Encoder(d_input_me, d_hidden, d_latent)
+        self.encoder_t = Encoder(d_input_tr, d_hidden, d_latent)
+        self.decoder_m = Decoder(d_latent, d_hidden, d_input_me)
+        self.decoder_t = Decoder(d_latent, d_hidden, d_input_tr)
 
 class Encoder(nn.Module):
     def __init__(self, d_x, d_h, d_l):
@@ -40,3 +43,6 @@ class Decoder(nn.Module):
     def decode(self, z):
         h = F.relu(self.dec1(z))
         return torch.sigmoid(self.dec2(h))
+    
+    def forward(self, z):
+        return self.decode(z)
