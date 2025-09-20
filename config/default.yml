@@ -1,0 +1,22 @@
+# default parameters. all experimental parameters should use these unless set as otherwise in another custom config
+
+# run parameters
+run_name: 'default'
+
+# vae parameters
+d_input_tr: 1
+d_input_me: 1
+d_hidden: 1
+d_latent: 1
+
+# training parameters
+batch_size: 1
+learning_rate: 1
+num_epochs: 1
+
+# data parameters
+t_data_fp: 1
+m_data_fp: 1
+
+# device
+device: 'auto'  # 'auto', 'cuda', or 'cpu'

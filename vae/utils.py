@@ -18,3 +18,7 @@ def load_config(default_fp, custom_fp):
 				raise ValueError(f"Key {k} not in default config")
 			config_d[k] = custom_d[k]
 	return config_d
+
+if __name__ == '__main__':
+	config_d = load_config(default_fp='config/default.yml', custom_fp='config/test.yml')
+	print(config_d)
