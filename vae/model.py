@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from losses import beta_vae_loss
 
 class VAE(nn.Module):
     def __init__(
@@ -106,4 +107,7 @@ if __name__ == '__main__':
 
     sample_batch = next(iter(train_loader))
     out_batch = model(sample_batch)
-    print(out_batch)
+
+    recon_x1, recon_x2, x1, x2, mu, logvar = out_batch['recon_tr'], out_batch['recon_met'], out_batch['tra'], out_batch['met'], out_batch['mu'], out_batch['logvar']
+    loss = beta_vae_loss(recon_x1, recon_x2, x1, x2, mu, logvar, 1, 1, 1)
+    print(loss)

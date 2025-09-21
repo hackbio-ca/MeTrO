@@ -3,3 +3,5 @@
 run_name: test
 
 data_fp: 'data/merged_df_debug.csv'
+
+num_epochs: 1

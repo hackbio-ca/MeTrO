@@ -2,7 +2,6 @@ from dataset import BimodalDataset
 from torch.utils.data import DataLoader
 import torch
 from utils import load_config
-from typing import Callable
 
 class BimodalDataSplit():
 
