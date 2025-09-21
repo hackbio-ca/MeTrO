@@ -13,10 +13,10 @@ Download data from [https://journals.plos.org/ploscompbiol/article?id=10.1371/jo
 
 ## Installation
 
+Python environment
 ```
-conda env create -f environment.yml
-conda activate metro
-
+python -m venv metro
+pip install torch pandas tqdm pyyaml
 pip install -I -e .
 ...
 ```
@@ -32,15 +32,17 @@ BiocManager::install("mixOmics")
 
 ## Quick Start
 
-Provide a basic usage example or minimal code snippet that demonstrates how to use the project.
+Given a metabolic or transcriptomic profile, MeTrO can encode either to a mutually shared latent space and then decode it into the other (or back to the original in a probabilistic manner)
 
 ```python
-# Example usage (Python)
 import my_project
 
-demo = my_project.example_function()
-print(demo)
+model = my_project.load_model(state_dict.pkl)
+z = model.encode(metabol_profile)
+recon_metabol = model.decode_m(z)
+recon_transcript = model.decode_t(z)
 ```
+
 ```r
 # Example usage (R)
 library(my_project)
