@@ -1,0 +1,7 @@
+# add lines to config to customize model and/or experimental settings
+
+run_name: top2000variable
+
+data_fp: 'data/merged_df_top2000.csv'
+
+num_epochs: 10
