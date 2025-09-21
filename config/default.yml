@@ -10,15 +10,17 @@ d_hidden: 1
 d_latent: 1
 
 # training parameters
-batch_size: 1
-learning_rate: 1
-num_epochs: 1
+batch_size: 50
+learning_rate: 1e-4
+num_epochs: 10
 beta: 1.0
 lambda_me: 1.0
 lambda_tr: 1.0
+train_frac: 0.8
+val_frac: 0.2
 
 # data parameters
-data_fp: '/home/ubuntu/tbd-project-25/data/merged_df.csv'
+data_fp: '/home/ubuntu/tbd-project-25/data/merged_df_debug.csv'
 
 # device
 device: 'cpu'  # 'cuda', or 'cpu'

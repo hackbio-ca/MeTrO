@@ -1,3 +1,5 @@
-# empty file. add lines to config to customize model and/or experimental settings
+# add lines to config to customize model and/or experimental settings
 
 run_name: test
+
+data_fp: 'data/merged_df_debug.csv'
