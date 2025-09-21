@@ -15,7 +15,7 @@ Download data from [https://journals.plos.org/ploscompbiol/article?id=10.1371/jo
 
 ```
 conda env create -f environment.yml
-conda activate metr
+conda activate metro
 
 pip install -I -e .
 ...
