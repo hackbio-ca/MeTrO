@@ -13,6 +13,14 @@ Download data from [https://journals.plos.org/ploscompbiol/article?id=10.1371/jo
 
 ## Installation
 
+```
+conda env create -f environment.yml
+conda activate metr
+
+pip install -I -e .
+...
+```
+
 ### R environment
 ```bash
 mamba install -c conda-forge r-base r-rcpp r-igraph r-biocmanager
@@ -43,14 +51,14 @@ print(demo)
 
 ## Usage
 
-Add detailed information and examples on how to use the project, covering its major features and functions.
+This tool is run as a set of scripts from the command line. The primary control method of training the VAE in this package is a set of config files in `config/`. See `config/default.yml` for the comprehensive set of model and training parameters and what they may look like. Any specified subset of these parameters can be overwritten by providing a custom config. For example:
 
-```python
-# More usage examples (Python)
-import my_project
-
-demo = my_project.advanced_function(parameter1='value1')
-print(demo)
+```
+python scripts/run.py -c config/test.yml
+```
+The above code will train a VAE for a single epoch on a random 1% subset of the data used to train the full model. For the standard settings of a full VAE training run:
+```
+python scripts/run.py -c config/control.yml
 ```
 ```r
 # More usage examples (R)

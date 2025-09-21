@@ -46,7 +46,8 @@ def main():
                 config_d=config_d)
     
     # set up trainer
-    optimizer = torch.optim.Adam(model.parameters(), lr=config_d['learning_rate'])
+    lr = float(config_d['learning_rate'])
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
     # set up output dir
     output_dir = os.path.join(config_d['results_dp'], config_d['run_name'])

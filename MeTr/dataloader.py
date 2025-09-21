@@ -1,7 +1,7 @@
-from dataset import BimodalDataset
+from MeTr.dataset import BimodalDataset
 from torch.utils.data import DataLoader
 import torch
-from utils import load_config
+from MeTr.utils import load_config
 
 class BimodalDataSplit():
 

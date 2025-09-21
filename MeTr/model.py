@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from losses import beta_vae_loss
+from MeTr.losses import beta_vae_loss
 
 class VAE(nn.Module):
     def __init__(
@@ -14,8 +14,8 @@ class VAE(nn.Module):
         device = config_d['device']
         
         super().__init__()
-        self.encoder_m = Encoder(d_input_me, d_hidden, d_latent)
-        self.encoder_t = Encoder(d_input_tr, d_hidden, d_latent)
+        self.encoder_m = VarEncoder(d_input_me, d_hidden, d_latent)
+        self.encoder_t = VarEncoder(d_input_tr, d_hidden, d_latent)
         self.decoder_m = Decoder(d_latent, d_hidden, d_input_me)
         self.decoder_t = Decoder(d_latent, d_hidden, d_input_tr)
 
@@ -64,7 +64,7 @@ class VAE(nn.Module):
         batch['logvar'] = logvar
 
         return batch
-class Encoder(nn.Module):
+class VarEncoder(nn.Module):
     def __init__(self, d_x, d_h, d_l):
         super().__init__()
         self.enc1 = nn.Linear(d_x, d_h)
