@@ -1,40 +1,22 @@
 import torch.nn.functional as F
 import torch
 
-def vae_loss(recon_x, x, mu, logvar, input_dim):
-    """
-    VAE loss function combining reconstruction loss and KL divergence
-    """
-    # Reconstruction loss (binary cross entropy)
-    BCE = F.binary_cross_entropy(recon_x, x.view(-1, input_dim), reduction='sum')
-    
-    # KL divergence loss
-    # KLD = -0.5 * sum(1 + log(sigma^2) - mu^2 - sigma^2)
-    KLD = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
-    
-    return BCE + KLD
+def bimodal_beta_vae_loss(recon_x1, recon_x2, x1, x2, mu, logvar, config_d):
 
-def beta_vae_loss(recon_x, x, mu, logvar, input_dim, beta=1.0):
-    """
-    β-VAE loss function with weighted KL divergence
+    total_loss = 0
+    # Reconstruction loss for modality 1
+    if x1 is not None:
+        x1_flat = x1.view(x1.size(0), -1)
+        bce_1 = F.binary_cross_entropy(recon_x1, x1_flat, reduction='sum')
+        total_loss += config.lambda_1 * bce_1
     
-    Args:
-        recon_x: Reconstructed input
-        x: Original input
-        mu: Mean of latent distribution
-        logvar: Log variance of latent distribution
-        beta: Weighting factor for KL divergence (β parameter)
-        input_dim: Dimensionality of input data
+    # Reconstruction loss for modality 2  
+    if x2 is not None:
+        x2_flat = x2.view(x2.size(0), -1)
+        bce_2 = F.binary_cross_entropy(recon_x2, x2_flat, reduction='sum')
+        total_loss += config.lambda_2 * bce_2
     
-    Returns:
-        Total loss = Reconstruction Loss + β * KL Divergence
-    """
-    # Reconstruction loss (binary cross entropy)
-    BCE = F.binary_cross_entropy(recon_x, x.view(-1, input_dim), reduction='sum')
+    # KL divergence loss (same regardless of modalities)
+    kld = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
     
-    # KL divergence loss
-    # KLD = -0.5 * sum(1 + log(sigma^2) - mu^2 - sigma^2)
-    KLD = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
-    
-    # b-VAE: weight the KL divergence by beta
-    return BCE + beta * KLD
+    return total_loss + config.beta * kld

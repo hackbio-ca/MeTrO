@@ -13,10 +13,12 @@ d_latent: 1
 batch_size: 1
 learning_rate: 1
 num_epochs: 1
+beta: 1.0
+lambda_me: 1.0
+lambda_tr: 1.0
 
 # data parameters
-t_data_fp: 1
-m_data_fp: 1
+data_fp: '/home/ubuntu/tbd-project-25/data/merged_df.csv'
 
 # device
 device: 'cpu'  # 'cuda', or 'cpu'
