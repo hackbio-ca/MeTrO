@@ -19,7 +19,7 @@ train_frac: 0.8
 val_frac: 0.2
 
 # data parameters
-data_fp: '/home/ubuntu/tbd-project-25/data/merged_df_debug.csv'
+data_fp: 'data/merged_df_debug.csv'
 
 # device
 device: 'cpu'  # 'cuda', or 'cpu' #TODO:try to set up CUDA on another VM to speed up training if necessary

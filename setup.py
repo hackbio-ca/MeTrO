@@ -7,7 +7,7 @@ with open(os.path.join(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 setup(
-    name="MeTr",
+    name="MeTrO",
     packages=find_packages(),
     version="1.0.0",
     description="Me_Trans (Variational Autoencoder for the integration of Metabolomic and Transcriptomic Profiles)",

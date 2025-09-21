@@ -1,8 +1,8 @@
-from MeTr.utils import load_config
-from MeTr.dataloader import BimodalDataSplit
-from MeTr.dataset import BimodalDataset
-from MeTr.model import VAE
-from MeTr.train import training_loop
+from MeTrO.utils import load_config
+from MeTrO.dataloader import BimodalDataSplit
+from MeTrO.dataset import BimodalDataset
+from MeTrO.model import VAE
+from MeTrO.train import training_loop
 import torch
 import pandas as pd
 import os

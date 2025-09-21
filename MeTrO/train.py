@@ -60,7 +60,7 @@ def _train_epoch(model: VAE, train_loader: DataLoader, optimizer, epoch: int, be
         train_loss += loss.item()
         tr_loss += loss_d['tr'].item()
         me_loss += loss_d['me'].item()
-        kl_loss += loss_d['kld'].item()
+        kl_loss += loss_d['kl'].item()
     
     avg_loss = train_loss / N
     avg_tr = tr_loss / N
@@ -98,7 +98,7 @@ def _val_epoch(model: VAE, val_loader: DataLoader, epoch: int, beta, lambda1, la
             val_loss += loss.item()
             tr_loss += loss_d['tr'].item()
             me_loss += loss_d['me'].item()
-            kl_loss += loss_d['kld'].item()
+            kl_loss += loss_d['kl'].item()
     
     avg_loss = val_loss / N
     avg_tr = tr_loss / N
