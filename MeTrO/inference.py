@@ -1,0 +1,13 @@
+from MeTrO.model import VAE
+
+def load_model(state_dict_fp):
+    return ...
+
+def encode(model, profile):
+    return ...
+
+def decode_m(model, z):
+    return ...
+
+def decode_t(model, z):
+    return ...
