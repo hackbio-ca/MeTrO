@@ -15,4 +15,11 @@ rpkm = rpkm.transpose(include_header=True, header_name="CCLE_ID", column_names=r
 merged_df = rpkm\
     .join(metabolomics, on="CCLE_ID")
 
+merged_df = merged_df.drop("DepMap_ID")
+
+merged_df.write_csv("data/merged_df.csv")
+
+# randomly sample 1% of the rows
+merged_df.sample(fraction=0.01, with_replacement=False, seed=42).write_csv("data/merged_df_debug.csv")
+
 merged_df.write_csv("data/merged_df.csv")
