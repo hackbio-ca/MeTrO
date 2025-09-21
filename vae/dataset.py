@@ -22,11 +22,9 @@ class BimodalDataset(Dataset):
             self.num_met -= 1
         if 'DepMap_ID' in self.met_df.columns:
             self.num_met -= 1
-        ...
         
     def __len__(self) -> int:
         return self.num_samples
-        ...
     
     def __getitem__(self, idx: int) -> Tuple[torch.Tensor, torch.Tensor, Optional[torch.Tensor]]:
         """
@@ -59,9 +57,4 @@ class BimodalDataset(Dataset):
         if remove_ccle:
             met_df.pop('CCLE_ID')
 
-
-        return {'name': ccle_id, 'met': torch.tensor(list(met_df)), 'tra': torch.tensor(list(tr_df))}
-        ...
-    
-    def load_data(csv_fp):
-        ...
+        return {'name': ccle_id, 'met': torch.tensor(list(met_df)).to(torch.float32), 'tra': torch.tensor(list(tr_df)).to(torch.float32)}

@@ -7,9 +7,10 @@ class VAE(nn.Module):
             self,
             d_input_tr: int,
             d_input_me: int,
-            d_hidden: int,
-            d_latent: int,
-            device: str):
+            config_d):
+        d_hidden = config_d['d_hidden']
+        d_latent = config_d['d_latent']
+        device = config_d['device']
         
         super().__init__()
         self.encoder_m = Encoder(d_input_me, d_hidden, d_latent)
@@ -87,3 +88,22 @@ class Decoder(nn.Module):
         return recon_x
     
 if __name__ == '__main__':
+
+    from utils import load_config
+    from dataset import BimodalDataset
+    from dataloader import BimodalDataSplit
+
+    config_d = load_config('config/default.yml', 'config/test.yml')
+    dataset = BimodalDataset(config_d)
+    datasplit = BimodalDataSplit(dataset, config_d)
+    train_loader = datasplit.get_train_loader()
+    val_loader = datasplit.get_val_loader()
+
+    met_d_in = dataset.num_met
+    tra_d_in = dataset.num_tr
+
+    model = VAE(tra_d_in, met_d_in, config_d)
+
+    sample_batch = next(iter(train_loader))
+    out_batch = model(sample_batch)
+    print(out_batch)
