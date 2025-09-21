@@ -32,7 +32,9 @@ BiocManager::install("mixOmics")
 
 ## Quick Start
 
-Given a metabolic or transcriptomic profile, MeTrO can encode either to a mutually shared latent space and then decode it into the other (or back to the original in a probabilistic manner)
+Given a metabolic or transcriptomic profile, MeTrO can encode either to a mutually shared latent space and then decode it into the other (or back to the original in a probabilistic manner).
+
+The following workflow is planned:
 
 ```python
 import my_project
