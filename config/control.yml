@@ -1,0 +1,7 @@
+# add lines to config to customize model and/or experimental settings
+
+run_name: control
+
+data_fp: 'data/merged_df.csv'
+
+num_epochs: 10
