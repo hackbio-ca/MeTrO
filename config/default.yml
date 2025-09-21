@@ -2,6 +2,7 @@
 
 # run parameters
 run_name: 'default'
+seed: 69
 
 # vae parameters
 d_hidden: 100
@@ -22,3 +23,8 @@ data_fp: '/home/ubuntu/tbd-project-25/data/merged_df_debug.csv'
 
 # device
 device: 'cpu'  # 'cuda', or 'cpu'
+
+# output
+results_dp: 'results'
+save_state: true
+save_log: true
