@@ -85,3 +85,5 @@ class Decoder(nn.Module):
         h = F.relu(self.dec1(z))
         recon_x = torch.sigmoid(self.dec2(h))
         return recon_x
+    
+if __name__ == '__main__':

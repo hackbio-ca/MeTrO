@@ -30,7 +30,17 @@ class BimodalDataSplit():
 def _custom_collate_fn(samples: list | tuple):
 
     batch = {}
-    for k in samples[0].keys():
-        batch[k] = torch.stack([s[k] for s in samples], dim=0)
-    
+    batch['met'] = torch.stack([s['met'] for s in samples], dim=0)
+    batch['tra'] = torch.stack([s['tra'] for s in samples], dim=0)
+    batch['name'] = [s['name'] for s in samples]    
     return batch
+
+if __name__ == '__main__':
+    config_d = load_config('config/default.yml', 'config/test.yml')
+    dataset = BimodalDataset(config_d)
+    datasplit = BimodalDataSplit(dataset, config_d)
+    train_loader = datasplit.get_train_loader()
+    val_loader = datasplit.get_val_loader()
+
+    for _, batch in enumerate(train_loader):
+        print(batch)
