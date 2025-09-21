@@ -16,8 +16,9 @@ class VAE(nn.Module):
         super().__init__()
         self.encoder_m = VarEncoder(d_input_me, d_hidden, d_latent)
         self.encoder_t = VarEncoder(d_input_tr, d_hidden, d_latent)
-        self.decoder_m = Decoder(d_latent, d_hidden, d_input_me)
-        self.decoder_t = Decoder(d_latent, d_hidden, d_input_tr)
+
+        self.decoder_m = NBDecoder(d_latent, d_hidden, d_input_me)
+        self.decoder_t = LNDecoder(d_latent, d_hidden, d_input_tr)
 
         self.joint_layer = nn.Linear(4 * d_latent, d_hidden)
         self.joint_mu = nn.Linear(d_hidden, d_latent)
@@ -43,10 +44,13 @@ class VAE(nn.Module):
         return joint_mu, joint_logvar
     
     def decode(self, z):
-        recon_x_me = self.decoder_m(z)
-        recon_x_tr = self.decoder_t(z)
+        # Metabolite decoder returns NB parameters
+        me_log_mu, me_log_theta = self.decoder_m(z)
 
-        return recon_x_tr, recon_x_me
+        # Transcript decoder returns Log-Normal parameters
+        tr_mu, tr_log_sigma = self.decoder_t(z)
+
+        return (tr_mu, tr_log_sigma), (me_log_mu, me_log_theta)
     
     def forward(self, batch):
         x_me = batch['met']
@@ -56,14 +60,17 @@ class VAE(nn.Module):
 
         z = self.reparameterize(mu, logvar)
 
-        recon_x_tr, recon_x_me = self.decode(z)
+        (recon_x_tr_mu, recon_x_tr_log_sigma), (recon_x_me_log_mu, recon_x_me_log_theta) = self.decode(z)
 
-        batch['recon_met'] = recon_x_me
-        batch['recon_tr'] = recon_x_tr
+        batch['recon_met_log_mu'] = recon_x_me_log_mu
+        batch['recon_met_log_theta'] = recon_x_me_log_theta
+        batch['recon_tr_mu'] = recon_x_tr_mu
+        batch['recon_tr_log_sigma'] = recon_x_tr_log_sigma
         batch['mu'] = mu
         batch['logvar'] = logvar
 
         return batch
+    
 class VarEncoder(nn.Module):
     def __init__(self, d_x, d_h, d_l):
         super().__init__()
@@ -87,6 +94,46 @@ class Decoder(nn.Module):
         h = F.relu(self.dec1(z))
         recon_x = torch.sigmoid(self.dec2(h))
         return recon_x
+    
+class NBDecoder(nn.Module):
+    """Decoder for Negative Binomial distribution (metabolite counts)"""
+    def __init__(self, d_latent, d_hidden, d_output):
+        super().__init__()
+        self.decoder = nn.Sequential(
+            nn.Linear(d_latent, d_hidden),
+            nn.ReLU(),
+            nn.Linear(d_hidden, d_hidden),
+            nn.ReLU()
+        )
+        # Two heads for NB parameters
+        self.mu_head = nn.Linear(d_hidden, d_output)      # log(mean)
+        self.theta_head = nn.Linear(d_hidden, d_output)   # log(dispersion)
+    
+    def forward(self, z):
+        h = self.decoder(z)
+        log_mu = self.mu_head(h)
+        log_theta = self.theta_head(h)
+        return log_mu, log_theta
+
+class LNDecoder(nn.Module):
+    """Decoder for Log-Normal distribution (transcript RPKM)"""
+    def __init__(self, d_latent, d_hidden, d_output):
+        super().__init__()
+        self.decoder = nn.Sequential(
+            nn.Linear(d_latent, d_hidden),
+            nn.ReLU(),
+            nn.Linear(d_hidden, d_hidden),
+            nn.ReLU()
+        )
+        # Two heads for Log-Normal parameters
+        self.mu_head = nn.Linear(d_hidden, d_output)        # mean in log-space
+        self.sigma_head = nn.Linear(d_hidden, d_output)     # log(std) in log-space
+    
+    def forward(self, z):
+        h = self.decoder(z)
+        mu = self.mu_head(h)
+        log_sigma = self.sigma_head(h)
+        return mu, log_sigma
     
 if __name__ == '__main__':
 

@@ -1,6 +1,6 @@
 from MeTr.model import VAE
 from MeTr.dataset import BimodalDataset
-from MeTr.losses import beta_vae_loss
+from MeTr.losses import mixed_vae_loss
 from torch.utils.data import DataLoader
 import torch
 from tqdm import tqdm
@@ -49,15 +49,12 @@ def _train_epoch(model: VAE, train_loader: DataLoader, optimizer, epoch: int, be
 
         optimizer.zero_grad()
         out = model(batch)
-        recon_tr = out['recon_tr']
-        recon_met = out['recon_met']
-        mu = out['mu']
-        logvar = out['logvar']
 
-        loss_d = beta_vae_loss(recon_tr, recon_met, out['tra'], out['met'], mu, logvar, beta, lambda1, lambda2)
+        loss_d = mixed_vae_loss(out, beta, lambda1, lambda2)
         
         loss = loss_d['loss']
         loss.backward()
+        # torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
         optimizer.step()
 
         train_loss += loss.item()
@@ -94,12 +91,8 @@ def _val_epoch(model: VAE, val_loader: DataLoader, epoch: int, beta, lambda1, la
         for i, batch in tqdm(enumerate(val_loader), total=len(val_loader), desc=f"Validation dataloader"):
             # Forward pass
             out = model(batch)
-            recon_tr = out['recon_tr']
-            recon_met = out['recon_met']
-            mu = out['mu']
-            logvar = out['logvar']
             
-            loss_d = beta_vae_loss(recon_tr, recon_met, out['tra'], out['met'], mu, logvar, beta, lambda1, lambda2)
+            loss_d = mixed_vae_loss(out, beta, lambda1, lambda2)
             loss = loss_d['loss']
             
             val_loss += loss.item()
